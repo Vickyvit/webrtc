@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Video Calling App</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js" defer></script>
+  <script src="/socket.io/socket.io.js" defer></script>
+  <script src="/js/main.js" defer></script>
+</head>
+<body>
+  <div class="wrapper">
+    <main class="main-container" role="main" aria-label="Video calling app">
+      <!-- Sidebar -->
+      <aside class="caller-list-wrapper" aria-label="Contact list">
+        <h1 class="caller-list-heading h-font">Contacts</h1>
+        <ul id="allusers" class="caller-list" role="list">
+          <!-- User contacts added dynamically -->
+        </ul>
+      </aside>
+
+      <!-- Video Call Section -->
+      <section class="video-call-container" aria-label="Video call area">
+        <!-- Username input -->
+        <div class="username-input">
+          <input
+            id="username"
+            type="text"
+            placeholder="Enter Username"
+            aria-label="Username"
+          />
+          <button id="create-user" type="button">Create</button>
+        </div>
+
+        <!-- Video streams -->
+        <div class="video-streams">
+          <div class="local-video" aria-label="Your video stream">
+            <video id="localVideo" autoplay playsinline muted></video>
+          </div>
+          <div class="remote-video" aria-label="Remote video stream">
+            <video id="remoteVideo" autoplay playsinline></video>
+          </div>
+        </div>
+
+        <!-- End Call Button -->
+        <div>
+     <button
+  id="end-call-btn"
+  class="call call-disconnect"
+  type="button"
+  aria-label="End call"
+>
+  <img src="/images/phone-disconnect.png" alt="End call" />
+</button>
+
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

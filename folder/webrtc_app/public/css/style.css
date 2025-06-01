@@ -1,0 +1,253 @@
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Lora&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Lato:300,700,300italic');
+
+/* Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  font-size: 10px;
+}
+body {
+  font-family: 'Lora', serif;
+  background: linear-gradient(to right, rgba(255, 0, 0, 0), rgb(33, 16, 16));
+  color: #333;
+  height: 100%;
+}
+
+/* Main Wrapper with Gradient Animation */
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(to right, #054f7d, #00a7cf, #efe348, #861a54, #054f7d);
+  background-size: 600%;
+  background-position: 0 0;
+  animation: gradients 20s infinite;
+  padding: 1rem;
+}
+
+@keyframes gradients {
+  0%, 100% { background-position: 0 0; }
+  50% { background-position: 100% 0; }
+}
+
+/* Main Container */
+.main-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  max-width: 1200px;
+  height: 90vh;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+/* Sidebar */
+.caller-list-wrapper {
+  width: 280px;
+  background: #f9f9f9;
+  border-right: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+}
+
+.caller-list-heading {
+  font-family: 'Lato', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  padding: 1.2rem;
+  border-bottom: 1px solid #ddd;
+  color: #054f7d;
+  background: #eee;
+}
+
+.caller-list {
+  list-style: none;
+  overflow-y: auto;
+  flex-grow: 1;
+  padding: 0.5rem;
+}
+
+.caller-list > li {
+  background: #eee;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.caller-list > li:hover {
+  background: #d4eaff;
+}
+
+.call-btn {
+  background: transparent;
+  border: none;
+  color: #054f7d;
+  cursor: pointer;
+}
+
+/* Call Section */
+.video-call-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Username Input */
+.username-input {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 500px;
+}
+
+.username-input input {
+  flex: 1;
+  padding: 0.8rem 1rem;
+  font-size: 1.6rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  font-family: 'Lora', serif;
+}
+
+.username-input button {
+  padding: 0.8rem 1.5rem;
+  font-size: 1.6rem;
+  background: darkgreen;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.username-input button:hover {
+  background: #006400;
+}
+
+/* Video Boxes */
+.video-streams {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: 960px;
+}
+
+.local-video,
+.remote-video {
+  background: black;
+  border-radius: 8px;
+  overflow: hidden;
+  flex: 1 1 45%;
+  min-width: 280px;
+  max-width: 440px;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Call Button */
+.call {
+  margin-top: 2rem;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  border: none;
+  background: white;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
+.call:hover {
+  background: #f44336;
+}
+
+.call img {
+  width: 60%;
+  height: 60%;
+}
+
+.d-none {
+  display: none !important;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .main-container {
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+    border-radius: 0;
+  }
+
+  .caller-list-wrapper {
+    width: 100%;
+    max-height: 180px;
+    border-right: none;
+    border-bottom: 1px solid #ccc;
+    overflow-x: auto;
+  }
+
+  .caller-list {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 1rem;
+  }
+
+  .caller-list > li {
+    margin: 0 1rem 0 0;
+    flex: 0 0 auto;
+  }
+
+  .video-call-container {
+    padding: 1rem;
+    width: 100%;
+  }
+
+  .username-input {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .username-input input,
+  .username-input button {
+    width: 100%;
+  }
+
+  .local-video,
+  .remote-video {
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+
+  .call {
+    margin-top: 1.5rem;
+  }
+}
