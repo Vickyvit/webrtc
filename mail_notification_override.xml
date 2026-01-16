@@ -2,10 +2,6 @@
 <odoo>
     <data>
 
-        <!-- CUSTOM EOXS SALES EMAIL TEMPLATE -->
-        <record id="mail_template_sale_eoxs_custom" model="mail.template">
-            <field name="name">EOXS Sales Order: Send Quotation email (Custom)</field>
-            <field name="model_id" ref="sale.model_sale_order"/>
 
             <field name="subject">
                 ${object.company_id.name}
