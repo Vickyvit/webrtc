@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- CUSTOM EOXS SALES EMAIL TEMPLATE -->
+        <record id="mail_template_sale_eoxs_custom" model="mail.template">
+            <field name="name">EOXS Sales Order: Send Quotation email (Custom)</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+
+            <field name="subject">
+                ${object.company_id.name}
+                ${object.state in ('draft', 'sent') and 'Quotation' or 'Order'}
+                (Ref ${object.name or 'n/a'})
+            </field>
+
+            <field name="email_from">
+                ${(object.user_id.email_formatted or user.email_formatted or '') | safe}
+            </field>
+
+            <field name="partner_to">${object.partner_id.id}</field>
+
+            <!-- FULL BODY HTML (NO inherit_id) -->
+            <field name="body_html" type="xml">
+                <table border="0" cellpadding="0" cellspacing="0"
+                       style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;">
+                    <tr>
+                        <td align="center">
+                            <table border="0" cellpadding="0" cellspacing="0" width="590"
+                                   style="padding: 16px; background-color: white; color: #454748; border-collapse:separate;">
+                                <tbody>
+                                    <!-- HEADER -->
+                                    <tr>
+                                        <td align="center" style="min-width: 590px;">
+                                            <table border="0" cellpadding="0" cellspacing="0" width="590"
+                                                   style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                                                <tr>
+                                                    <td valign="middle">
+                                                        % set company = object.company_id or object.user_id.company_id
+                                                        or user.company_id
+                                                        <span style="font-size: 13px;">Hello , thank your for your
+                                                            inquiry.
+                                                        </span>
+                                                        <br/>
+                                                        <br/>
+                                                        <span style="font-size:14px;">We are pleased to offer you the
+                                                            following options:
+                                                        </span>
+                                                        <br/>
+                                                        <!--                                                        <span style="font-size: 20px; font-weight: bold;">-->
+                                                        <!--                                                            ${object.name}-->
+                                                        <!--                                                        </span>-->
+                                                        <!--                                                        is ready for review.-->
+                                                    </td>
+                                                    <td valign="middle" align="right">
+                                                        <img src="/logo.png?company=${company.id}"
+                                                             style="padding: 0px; margin: 0px; height: auto; width: 80px;"
+                                                             alt="${company.name}"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" style="text-align:center;">
+                                                        <hr width="100%"
+                                                            style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin:16px 0px 16px 0px;"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <!-- CONTENT -->
+                                    <tr>
+                                        <td align="center" style="min-width: 590px;">
+                                            <table class="table table-sm o_main_table" border="0" cellpadding="0"
+                                                   cellspacing="0" width="590"
+                                                   style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+
+                                                <thead>
+                                                    <tr>
+                                                        <th name="th_description" class="text-center">Product</th>
+                                                        <th name="th_description" class="text-center">Description</th>
+                                                        <th name="th_quantity" class="text-center">Quantity</th>
+                                                        <th name="th_priceunit" class="text-center">Unit Price</th>
+                                                        <th name="th_subtotal" class="text-center">SubTotal
+
+
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tr>
+                                                    <td valign="top" style="font-size: 13px;">
+
+                                                        <hr/>
+
+                                                        % for line in object.order_line:
+                                                        <tr>
+                                                            <td class="text-center" style="font-size:11px;" width="15%">
+                                                              <!--  KARTIK TEXT NOTE ADDED -->
+                                                               <strong>
+    ${line.product_id and line.product_id.display_name or 'note'}
+</strong>
+
+                                                            </td>
+
+
+                                                            <td class="text-center" style="font-size:11px;" width="12%">
+                                                 <!--  KARTIK TEXT NOTE ADDED -->
+                                                               <strong>
+    ${line.name or 'note'}
+</strong>
+
+
+                                                            </td>
+                                                            <td class="text-center" style="font-size:11px;" width="15%">
+                                                        <!--  KARTIK TEXT NOTE ADDED -->
+                                                               <strong>
+    ${line.product_uom_qty and ('%s %s' % (line.product_uom_qty, line.product_uom.name)) or 'note'}
+</strong>
+
+                                                            </td>
+
+                                                            <td class="text-center" style="font-size:11px;" width="15%">
+                                                         <!--  KARTIK TEXT NOTE ADDED -->
+                                                              <strong>
+    ${line.price_unit and line.price_unit or 'note'}
+</strong>
+
+                                                            </td>
+                                                            <td class="text-center" style="font-size:11px;" width="15%">
+                                                                <!--  KARTIK TEXT NOTE ADDED -->
+                                                                <strong>
+    ${line.price_subtotal and line.price_subtotal or 'note'}
+</strong>  
+
+                                                            </td>
+
+
+                                                        </tr>
+                                                        <br/>
+
+                                                        % endfor
+
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: right;">
+                                                        <strong>Untaxed Amount:</strong>
+                                                    </td>
+                                                    <td class="text-right" style="font-size: 11px;">
+                                                        <strong>${object.amount_untaxed}</strong>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: right;">
+                                                        <strong>Tax:</strong>
+                                                    </td>
+                                                    <td class="text-right" style="font-size: 11px;">
+                                                        <strong>${object.ks_amount_global_tax}</strong>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4" style="text-align: right;">
+                                                        <strong>Total:</strong>
+                                                    </td>
+                                                    <td class="text-right" style="font-size: 11px;">
+                                                        <strong>${object.amount_total}</strong>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <div style="text-align: center;">
+                                                <strong>Thank you for doing business with ${company.name}!
+                                                </strong>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!-- FOOTER -->
+                                    <tr>
+                                        <td align="center" style="min-width: 590px;">
+                                            <table border="0" cellpadding="0" cellspacing="0" width="590"
+                                                   style="min-width: 590px; background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                                                <tr>
+                                                    <td valign="middle" align="left">
+                                                        ${company.name}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td valign="middle" align="left" style="opacity: 0.7;">
+                                                        ${company.phone}
+                                                        % if company.email
+                                                        |
+                                                        <a href="'mailto:%s' % ${company.email}"
+                                                           style="text-decoration:none; color: #454748;">
+                                                            ${company.email}
+                                                        </a>
+                                                        % endif
+                                                        % if company.website
+                                                        |
+                                                        <a href="'%s' % ${company.website}"
+                                                           style="text-decoration:none; color: #454748;">
+                                                            ${company.website}
+                                                        </a>
+                                                        % endif
+                                                    </td>
+                                                </tr>
+<!--                                                #Lokendra 8 jan2026 :below code is commented-->
+                                                <!--                                                  <tr>-->
+                                                <!--                                        <p>-->
+                                                <!--  To view your order details, please click the link below:-->
+                                                <!--</p>-->
+                                                <!--<br/>-->
+                                                <!--<a href="/my/orders/${object.id}?access_token=${object.access_token}" style="padding: 10px 20px; color: #fff; background-color: #875A7B; border-radius: 5px; text-decoration: none;">View Order</a>-->
+                                                <!--                                    </tr>-->
+                                                <tr>
+                                                    <td align="left"
+                                                        style="padding-top:10px; font-size:11px; color:#000000;">
+
+                                                        <!-- Sender Name -->
+                                                        <strong style="font-size:20px;">
+                                                            ${object.user_id.name}
+                                                        </strong>
+                                                        <br/>
+
+                                                        <!-- Marketing Line -->
+                                                        <span style="color:#c00000; font-weight:bold;  text-decoration: underline;  text-decoration-color:#1f4e79;" >
+                                                            Ask us about our PPC PRE-Sq. &amp; GooDa Duplex Mill
+                                                            capabilities
+                                                        </span>
+                                                        <br/>
+
+                                                        <!-- Tagline -->
+                                                        <span style="color:#1f4e79; font-style:italic; ">
+                                                            “OUR DIFFERENCE IS MARKED.”
+                                                        </span>
+                                                        <br/>
+
+                                                        <!-- Role -->
+                                                        <strong>Inside Sales</strong>
+                                                        <br/>
+
+                                                        <!-- Phone (User → Company fallback) -->
+                                                        Phone:
+                                                        % if object.user_id.partner_id.phone:
+                                                        ${object.user_id.partner_id.phone}
+                                                        % else:
+                                                        ${company.phone}
+                                                        % endif
+                                                        <br/>
+
+                                                        <!-- Fax (User → Company fallback) -->
+                                                        Fax:
+                                                        % if object.user_id.partner_id.fax:
+                                                        ${object.user_id.partner_id.fax}
+                                                        % else:
+                                                        ${company.fax}
+                                                        % endif
+                                                        <br/>
+
+                                                        <!-- Drop list line -->
+                                                        <span style="color:#1f4e79; font-weight:bold;">
+                                                            Please view our drop list for quick turn around!
+                                                            A majority of "as is" orders ship same day!
+                                                        </span>
+
+                                                        <br/>
+                                                        <br/>
+
+                                                        <!-- IMAGE LINE -->
+                                                        <table cellpadding="0" cellspacing="0">
+                                                            <tr>
+                                                                <td style="padding-right:10px;">
+                                                                    <a href="https://www.ppcspecialtymetals.com/"
+                                                                       target="_blank">
+                                                                        <img src="/send_by_mail_edit/static/src/img/ppcimage.png"
+                                                                             style="height:45px; border-radius:6px;"/>
+                                                                    </a>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="http://inventory.ppcspecialtymetals.com/p2file.txt"
+                                                                       target="_blank">
+                                                                        <img src="/send_by_mail_edit/static/src/img/ppc_inventory.png"
+                                                                             style="height:45px; border-radius:6px;"/>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+
+                                                    </td>
+                                                </tr>
+
+
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </field>
+
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="user_signature" eval="False"/>
+            <field name="report_template" ref="m5_sale_order.morgan_so_action_report"/>
+            <field name="report_name">${(object.name or '').replace('/','_')}</field>
+        </record>
+
+    </data>
+</odoo>
